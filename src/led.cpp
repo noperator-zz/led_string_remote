@@ -2,20 +2,18 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-LED led_red {&OCR1A};
-LED led_green {&OCR1B};
-LED led_blue {&OCR1C};
+LED led_red   {&DDRB, &PORTB, 6, &TCCR1A, &OCR1B, COM1B1};
+LED led_green {&DDRB, &PORTB, 5, &TCCR1A, &OCR1A, COM1A1};
+LED led_blue  {&DDRB, &PORTB, 7, &TCCR1A, &OCR1C, COM1C1};
 
 void led_init() {
 	// set up timer 1 channels A, B, C for 8-bit PWM output
-	TCCR1A = (1 << COM1A1) | (1 << COM1B1) | (1 << COM1C1) | (1 << WGM10);
+	TCCR1A = (1 << WGM10);
 	TCCR1B = (1 << CS10) | (1 << WGM12);
 
-	DDRB |= (1 << 5) | (1 << 6) | (1 << 7);
-
-	led_red.set(0);
-	led_green.set(0);
-	led_blue.set(0);
+	led_red.init();
+	led_green.init();
+	led_blue.init();
 }
 
 void led_blink(uint8_t r, uint8_t g, uint8_t b, uint16_t ms) {

@@ -105,13 +105,13 @@ int main() {
 
 					case IR_CODE_CHUP:
 						if (current_output) {
-							current_output->inc();
+							current_output->inc(100);
 						}
 						break;
 
 					case IR_CODE_CHDN:
 						if (current_output) {
-							current_output->dec();
+							current_output->dec(0);
 						}
 						break;
 
